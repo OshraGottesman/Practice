@@ -1,12 +1,3 @@
-// function index_row_for_hint(){
-//     let row = Math.floor(Math.random()*8);
-//     return row;
-// }
-// function index_colum_for_hint(){
-//     let colum = Math.floor(Math.random()*8);
-//     return colum;
-// }
-// console.log(index_row_for_hint(),index_colum_for_hint());
 let difficulty = window.location.search;
 difficulty = difficulty.substring(1);
 let array_of_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -22,6 +13,17 @@ let sudoku_template = [
     ["i", "g", "h", "c", "a", "b", "f", "d", "e"]
 ];
 let solved_board;
+let unsolved_board = [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+]
 function put_numbers_in_board(board, random_numbers) {
 
     for (let i = 0; i < board.length; i++) {
@@ -133,17 +135,6 @@ function create_board(board, array_of_numbers) {
 }
 function generate_board_in_specefied_difficulty(amount_of_numbers_to_take_out){ //takes out 20 numbers
     solved_board = create_board(sudoku_template, array_of_numbers);
-    let unsolved_board = [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        []
-    ]
     for(let i=0; i<solved_board.length; i++){
         for(let j=0; j<solved_board[i].length; j++){
             unsolved_board[i][j]=solved_board[i][j];
@@ -172,7 +163,7 @@ function generate_board_in_specefied_difficulty(amount_of_numbers_to_take_out){ 
 function check_row(row){
     for(let i =0; i<row.length; i++){
         for(let j=i+1; j<row.length; j++){
-            if(row[i]==row[j]){
+            if(row[i]==row[j] || row[i] < "1" || row[i] > "9"){
                 return false;
             }
         }
@@ -352,5 +343,30 @@ function restart(){
    for (i=0; i<a.length; i++){
       a[i].value = "";
    }
+}
+function hint(){
+    flag = true;
+    while(flag){
+        let random_number_for_hint = Math.floor(Math.random()*81);
+        if(unsolved_board[Math.floor(random_number_for_hint/9)][random_number_for_hint%9] == 0 && document.querySelector(`#container > table > tbody > tr:nth-child(${Math.floor(random_number_for_hint/9)+1}) > td:nth-child(${random_number_for_hint%9+1}) > input`).value == ""){
+            document.querySelector(`#container > table > tbody > tr:nth-child(${Math.floor(random_number_for_hint/9)+1}) > td:nth-child(${random_number_for_hint%9+1}) > input`).value = solved_board[Math.floor(random_number_for_hint/9)][random_number_for_hint%9];
+            document.querySelector(`#container > table > tbody > tr:nth-child(${Math.floor(random_number_for_hint/9)+1}) > td:nth-child(${random_number_for_hint%9+1}) > input`).style.color = "#f3224f";
+            document.querySelector(`#container > table > tbody > tr:nth-child(${Math.floor(random_number_for_hint/9)+1}) > td:nth-child(${random_number_for_hint%9+1}) > input`).style.backgroundColor = "pink";
+            flag=false;
+        }
+        else{
+            let a= document.querySelectorAll(".input");
+            let counter = 0;
+            for (i=0; i<a.length; i++){
+               if(a[i].value != ""){
+                    counter++;
+               }
+            }
+            if(counter==a.length){
+                alert("Board is complete! press Finish")
+                break;
+            }
+        }
+    }
 }
 console.log(generate_board_in_specefied_difficulty(difficulty));
