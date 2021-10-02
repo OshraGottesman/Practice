@@ -9,10 +9,17 @@ body{
     margin-top: 10px;
     text-align: center;
 }
+#timer{
+    display: inline;
+    position: relative;
+    left: -90px;
+    font-weight: bold;
+    font-size: 20px;
+}
 h1{
     display: inline;
     position: relative;
-    left: 20px;
+    /* left: 20px; */
 }
 #question_mark{
     position: relative;
@@ -20,7 +27,7 @@ h1{
     background:none;
     margin-bottom: 20px;
     font-size: 30px;
-    left: 100px;
+    left: 90px;
 }
 #floating_hint {
     font-size: 20px;
@@ -87,7 +94,7 @@ input{
     font-size: large;
     font-weight: 700;
     color: #f3224f;
-    background-color: rgb(255, 247, 248);
+    background-color: #fff7f8;
 }
 .buttom_buttons{
     position: relative;
@@ -113,5 +120,5 @@ input{
     margin-left: 30px;
 }
 input:hover{
-    background-color: rgb(252, 218, 234);
+    background-color: #d6b8c6;
 }

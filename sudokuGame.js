@@ -1,7 +1,9 @@
 let difficulty = window.location.search;
 difficulty = difficulty.substring(1);
+let m=0;
+let s=0;
 let array_of_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-let sudoku_template = [
+const sudoku_template = [
     ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
     ["d", "e", "f", "g", "h", "i", "a", "b", "c"],
     ["g", "h", "i", "a", "b", "c", "d", "e", "f"],
@@ -124,7 +126,7 @@ function create_board(board, array_of_numbers) {
         random_numbers.push(array_of_numbers[temp]);
         array_of_numbers.splice(temp, 1);
     }
-    board = put_numbers_in_board(board, random_numbers);
+    board = put_numbers_in_board(board, random_numbers); //michael
     board = switch_3_colums(board, create_array_of_3_random_numbers([0, 1, 2]), 0);
     board = switch_3_colums(board, create_array_of_3_random_numbers([3, 4, 5]), 3);
     board = switch_3_colums(board, create_array_of_3_random_numbers([6, 7, 8]), 6);
@@ -133,7 +135,7 @@ function create_board(board, array_of_numbers) {
     board = switch_3_rows(board, create_array_of_3_random_numbers([6,7,8]),6);
     return board;
 }
-function generate_board_in_specefied_difficulty(amount_of_numbers_to_take_out){ //takes out 20 numbers
+function generate_board_in_specefied_difficulty(amount_of_numbers_to_take_out){ //takes out numbers according to difficulty
     solved_board = create_board(sudoku_template, array_of_numbers);
     for(let i=0; i<solved_board.length; i++){
         for(let j=0; j<solved_board[i].length; j++){
@@ -327,7 +329,8 @@ function check_finish(){
         flag = check_row(box_array); //checks 9th box
     }
     if(flag){
-        alert("Congradulations!! You Did It!")
+        alert(`Congradulations!! You Did It in ${m} minutes and ${s} seconds!`)
+        best_time();
         location.assign("2ndpage.html")
         return true;
     }
@@ -342,7 +345,10 @@ function restart(){
    let a= document.querySelectorAll(".input");
    for (i=0; i<a.length; i++){
       a[i].value = "";
+      a[i].style.backgroundColor = "#fff7f8";
    }
+   s=0;
+   m=0;
 }
 function hint(){
     flag = true;
@@ -370,3 +376,73 @@ function hint(){
     }
 }
 console.log(generate_board_in_specefied_difficulty(difficulty));
+
+
+function startTime() {
+    if(s==59){
+        m++;
+        s=0;
+    }
+    else{
+        s++;
+    }
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('timer').innerHTML =  m + ":" + s;
+    setTimeout(startTime, 1000);
+  }
+  
+  function checkTime(i) {
+      i=parseInt(i);
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+  }
+
+//   let best_time_minutes_difficulty_1 = 00;
+//   let best_time_minutes_difficulty_2 = 00;
+//   let best_time_minutes_difficulty_3 = 00;
+//   let best_time_seconds_difficulty_1 = 00;
+//   let best_time_seconds_difficulty_2 = 00;
+//   let best_time_seconds_difficulty_3 = 00;
+//   if (difficulty==20){
+//     document.getElementById("best_time").innerHTML=best_time_minutes_difficulty_1+":"+best_time_seconds_difficulty_1;
+//   }
+//   else if (difficulty==40){
+//     document.getElementById("best_time").innerHTML=best_time_minutes_difficulty_2+":"+best_time_seconds_difficulty_2;
+//   }
+//   else if (difficulty==60){
+//     document.getElementById("best_time").innerHTML=best_time_minutes_difficulty_3+":"+best_time_seconds_difficulty_3;
+//   }
+
+// function best_time(){
+//     if(difficulty==20){
+//       if(best_time_minutes_difficulty_1>m || (best_time_minutes_difficulty_1==m && best_time_seconds_difficulty_1>s)){
+//           best_time_minutes_difficulty_1 = m;
+//           best_time_seconds_difficulty_1 =s;
+//           document.getElementById("best_time").innerHTML=m+":"+s
+//           return true;
+//       }
+//     }
+//     if(difficulty==40){
+//       if(best_time_minutes_difficulty_2>m || (best_time_minutes_difficulty_2==m && best_time_seconds_difficulty_2>s)){
+//           best_time_minutes_difficulty_2 = m;
+//           best_time_seconds_difficulty_2 =s;
+//           document.getElementById("best_time").innerHTML=m+":"+s
+//           return true;
+//       }
+//     }
+//     if(difficulty==60){
+//       if(best_time_minutes_difficulty_3>m || (best_time_minutes_difficulty_3==m && best_time_seconds_difficulty_3>s)){
+//           best_time_minutes_difficulty_3 = m;
+//           best_time_seconds_difficulty_3 =s;
+//           document.getElementById("best_time").innerHTML=m+":"+s
+//           return true;
+//       }
+//     }
+//     return false;
+// }
+
+
+
+
+
